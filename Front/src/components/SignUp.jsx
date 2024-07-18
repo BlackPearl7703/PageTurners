@@ -2,6 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import Login from './login'
 import { useForm } from "react-hook-form"
+import axios from 'axios'
 export default function SignUp() {
   const {
     register,
@@ -9,7 +10,25 @@ export default function SignUp() {
     watch,
     formState: { errors },
   } = useForm()
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = async(data) => {
+    console.log(data)
+    const userinfo={
+      username:data.username,
+      password:data.password,
+      email:data.email
+    }
+  await  axios.post("http://localhost:4000/user/signup",userinfo)
+    .then((res)=>{
+      console.log(res.data)
+      if(res.data){
+        alert("signup successfully!!")
+      }
+    }).catch((err)=>{
+      alert("sign up error", +err)
+    })
+
+
+  }
   return (
     <div className='flex min-h-[100vh] items-center justify-center '>
       <form action="" 
@@ -50,7 +69,7 @@ export default function SignUp() {
   <input type="text" className="grow" placeholder="Username" 
     {...register("username", { required: true })} />
 </label>
-{errors.email && <span  className='text-xs text-red-500 mt-5'>*This field is required</span>}
+{errors.username && <span  className='text-xs text-red-500 mt-5'>*This field is required</span>}
 </div>
 
 <div>
@@ -66,22 +85,19 @@ export default function SignUp() {
       clipRule="evenodd" />
   </svg>
   <input type="password" className="grow" placeholder='password' 
-    {...register("passoword", { required: true })} />
+    {...register("password", { required: true })} />
 </label>
 
-{errors.email && <span  className='text-xs text-red-500 mt-5'>*This field is required</span>}
+{errors.password && <span  className='text-xs text-red-500 mt-5'>*This field is required</span>}
 </div>
 <div className='flex justify-between  items-center'>
         <button className='btn btn-success'>SignUp</button>
         <p>Already user?  
-           <button
-               onClick={(e)=> {
-               e.preventDefault();
-                // console.log("hello");
-                document.getElementById("my_modal_3").showModal()}} >   <span className='underline cursor-pointer text-blue-500'>Login</span> 
+           <Link to={'/login'}
+               >   <span className='underline cursor-pointer text-blue-500'>Login</span> 
            
-           </button>
-           <Login/>
+           </Link>
+           
              </p>
         </div>
       </form>

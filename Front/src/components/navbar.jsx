@@ -1,5 +1,6 @@
 import { set } from 'mongoose';
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import Login from './login'
 export default function navbar() {
 const [theme,settheme]=useState(localStorage.getItem("theme")?localStorage.getItem("theme"):"light")
@@ -136,12 +137,10 @@ useEffect(()=>{
   </svg>
 </label>
    </div>
-    <a className="btn"
-      onClick={()=> {
-        console.log("hello");
-        document.getElementById("my_modal_3").showModal()}}
-    >Login</a>
-    <Login/>
+    <Link to={'/login'} className="btn"
+     
+    >Login</Link>
+  
   </div>
 </div>
     </div>
